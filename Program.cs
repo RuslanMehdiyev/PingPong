@@ -11,7 +11,7 @@ namespace PingPong
             Ping ping = new();
             Pong pong = new();
             ping.Notify += Message;
-            pong.Notify += Message;
+            pong.Notify += Message1;
             Console.WriteLine("Please enter a name that launches the game:");
             ping.Player1 = ValidationString();
             Console.WriteLine("Please enter the name of the second player:");
@@ -24,7 +24,6 @@ namespace PingPong
             for (int j = 0; j < NumOfServe; j++)
             {
                 Console.WriteLine($"\nServe {j + 1}\n");
-                Console.WriteLine();
                 for (int i = 0; i < NumOfHits; i++)
                 {
                     if (i % 2 == 0)
@@ -40,21 +39,25 @@ namespace PingPong
                 }
                 countScore++;
             }
-            if(NumOfHits%2==0)
+            if (NumOfHits % 2 == 0)
             {
-                Console.WriteLine($"{ping.Player1} can't sent");
                 Console.WriteLine($"\n{pong.Player2} won\n");
             }
             else
             {
-                Console.WriteLine($"{pong.Player2} can't sent");
                 Console.WriteLine($"\n{ping.Player1} won\n");
             }
-            Console.WriteLine($"Score {countScore}:0\nGame over Bye.");
+            Console.WriteLine($"Score {countScore}:0\nGame over... Bye.");
             Console.ReadKey();
         }
         private static void Message(string message)
         {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(message);
+        }
+        private static void Message1(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(message);
         }
         static byte Validation()
@@ -98,7 +101,7 @@ namespace PingPong
             Info = Info.ToUpper()[0] + Info.Substring(1).ToLower();
             return Info;
         }
-         static int EmptyString(string name)
+        static int EmptyString(string name)
         {
             int count = 0;
             if (string.IsNullOrEmpty(name))
@@ -128,11 +131,11 @@ namespace PingPong
         public string Player2 { get; set; }
         public void GetPong()
         {
-            Notify?.Invoke($"{Player2} sent Pong");
+            Notify?.Invoke($"\t{Player2} sent Pong");
         }
         public void Received()
         {
-            Notify?.Invoke($"{Player2} received Ping");
+            Notify?.Invoke($"\t{Player2} received Ping");
         }
     }
 }
